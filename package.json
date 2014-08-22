@@ -1,0 +1,25 @@
+{
+  "name": "crunchie",
+  "version": "0.0.0",
+  "description": "crunchbase javascript api",
+  "main": "crunchie.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/incubake/Crunchie.git"
+  },
+  "keywords": [
+    "crunchbase",
+    "api",
+    "api",
+    "startup"
+  ],
+  "author": "Chris Morris",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/incubake/Crunchie/issues"
+  },
+  "homepage": "https://github.com/incubake/Crunchie"
+}
