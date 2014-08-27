@@ -33,6 +33,9 @@ module.exports = function(grunt) {
 				}, {
 					src: "node_modules/qunitjs/qunit/qunit.css",
 					dest: "test/qunit.css"
+				}, {
+					src: "node_modules/underscore/underscore.js",
+					dest: "test/underscore.js"
 				}]
 			}
 		},
