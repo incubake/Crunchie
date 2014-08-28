@@ -5,8 +5,9 @@
             organizations: "/v/2/organizations",
             organization: "/v/2/organization/<%= permalink %>",
             people: "/v/2/people",
-            person: "/v/2/persion/<%= permalink %>",
+            person: "/v/2/person/<%= permalink %>",
             products: "/v/2/products",
+            product: "/v/2/product/<%= permalink %>",
             fundingRound: "/v/2/funding-round/<%= uuid %>",
             acquisition: "/v/2/acquisition/<%= uuid %>",
             ipo: "/v/2/ipo/<%= uuid %>",
@@ -17,33 +18,51 @@
         Crunchie = function(key) {
             api_key = key
         },
-        _createRequest = function(url, params) {
+        _createRequest = function(url, params, cb) {
             var compiledUrl = _.template(base + url),
                 uri = compiledUrl(params) + "?user_key=" + api_key,
-                ourData;
-            return $.ajax({
+                callback = cb || function() {};
+            $.ajax({
                 url: uri,
                 dataType: "jsonp",
-                async: false
+                async: false,
+                success: callback
             });
         };
     Crunchie.prototype.getOrganizations = function() {
 
     };
-    Crunchie.prototype.getOrganization = function(permalink) {
+    Crunchie.prototype.getOrganization = function(permalink, callback) {
         if (!permalink) {
             throw new Error("The permalink for the organization is required");
         }
 
-        var data = _createRequest(actions.organization, {
+        _createRequest(actions.organization, {
             permalink: permalink
-        });
-
-        var data2 = data.success(function(data) {
-            return data;
-        });
-
-        return data2;
+        }, callback);
     };
+    Crunchie.prototype.getPeople = function(callback) {
+        _createRequest(actions.people, {}, callback);
+    };
+    Crunchie.prototype.getPerson = function(permalink, callback) {
+        if (!permalink) {
+            throw new Error("The permalink for the organization is required");
+        }
+
+        _createRequest(actions.person, {
+            permalink: permalink
+        }, callback);
+    };
+
+    Crunchie.prototype.getProduct = function(permalink, callback) {
+        if (!permalink) {
+            throw new Error("The permalink for the organization is required");
+        }
+
+        _createRequest(actions.product, {
+            permalink: permalink
+        }, callback);
+    };
+
     window.Crunchie = Crunchie;
 })(jQuery);
