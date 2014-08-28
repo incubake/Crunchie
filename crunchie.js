@@ -28,40 +28,86 @@
                 async: false,
                 success: callback
             });
+        },
+        getSingleton = function(type, permalink, callback) {
+            if (!permalink) {
+                throw new Error("The permalink for the organization is required");
+            }
+
+            if (!actions[type]) {
+                throw new Error("The " + action + " could not be found");
+            }
+
+            _createRequest(actions[type], {
+                permalink: permalink
+            }, callback);
+        },
+        getCollection = function(type, callback) {
+            if (!actions[type]) {
+                throw new Error("The " + action + " could not be found");
+            }
+            _createRequest(actions[type], {}, callback);
         };
+
+    Crunchie.prototype.getPerson = function() {
+        var args = Array.prototype.slice.call(arguments);
+        args.unshift("person");
+        getSingleton.apply(this, args);
+    };
+    Crunchie.prototype.getPeople = function() {
+        var args = Array.prototype.slice.call(arguments);
+        args.unshift("people");
+        getCollection.apply(this, args);
+    };
+    Crunchie.prototype.getOrganization = function() {
+        var args = Array.prototype.slice.call(arguments);
+        args.unshift("organization");
+        getSingleton.apply(this, args);
+    };
     Crunchie.prototype.getOrganizations = function() {
-
+        var args = Array.prototype.slice.call(arguments);
+        args.unshift("organizations");
+        getCollection.apply(this, args);
     };
-    Crunchie.prototype.getOrganization = function(permalink, callback) {
-        if (!permalink) {
-            throw new Error("The permalink for the organization is required");
-        }
-
-        _createRequest(actions.organization, {
-            permalink: permalink
-        }, callback);
+    Crunchie.prototype.getProduct = function() {
+        var args = Array.prototype.slice.call(arguments);
+        args.unshift("product");
+        getSingleton.apply(this, args);
     };
-    Crunchie.prototype.getPeople = function(callback) {
-        _createRequest(actions.people, {}, callback);
+    Crunchie.prototype.getProducts = function() {
+        var args = Array.prototype.slice.call(arguments);
+        args.unshift("products");
+        getCollection.apply(this, args);
     };
-    Crunchie.prototype.getPerson = function(permalink, callback) {
-        if (!permalink) {
-            throw new Error("The permalink for the organization is required");
-        }
-
-        _createRequest(actions.person, {
-            permalink: permalink
-        }, callback);
+    Crunchie.prototype.getFunding = function() {
+        var args = Array.prototype.slice.call(arguments);
+        args.unshift("fundingRound");
+        getSingleton.apply(this, args);
     };
-
-    Crunchie.prototype.getProduct = function(permalink, callback) {
-        if (!permalink) {
-            throw new Error("The permalink for the organization is required");
-        }
-
-        _createRequest(actions.product, {
-            permalink: permalink
-        }, callback);
+    Crunchie.prototype.getAquisition = function() {
+        var args = Array.prototype.slice.call(arguments);
+        args.unshift("acquisition");
+        getSingleton.apply(this, args);
+    };
+    Crunchie.prototype.getIPO = function() {
+        var args = Array.prototype.slice.call(arguments);
+        args.unshift("ipo");
+        getSingleton.apply(this, args);
+    };
+    Crunchie.prototype.getFundRaise = function() {
+        var args = Array.prototype.slice.call(arguments);
+        args.unshift("acquisition");
+        getSingleton.apply(this, args);
+    };
+    Crunchie.prototype.getLocations = function() {
+        var args = Array.prototype.slice.call(arguments);
+        args.unshift("locations");
+        getCollection.apply(this, args);
+    };
+    Crunchie.prototype.getCategories = function() {
+        var args = Array.prototype.slice.call(arguments);
+        args.unshift("categories");
+        getCollection.apply(this, args);
     };
 
     window.Crunchie = Crunchie;
