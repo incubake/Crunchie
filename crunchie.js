@@ -42,36 +42,85 @@ var request = require("request"),
             }
         });
     },
-    parseParams = function(type, params, callback) {
-        var args = Array.prototype.slice.call(arguments),
-            params = {},
-            cb = args[args.length - 1],
-            callback, type;
-        //check for atleast type
-        if (args.length < 1) {
-            throw new Error("Missing minimum required 'type' param");
+    getSingleton = function(type, permalink, callback) {
+        if (!permalink) {
+            throw new Error("The permalink for the organization is required");
         }
-        //check for type
-        else if (args.length >= 1 && args[0] === "string") {
-            type = args[0];
-            if (args[1] && !_.isFunction(args[1])) {
-                params = args[1];
-            }
-        }
-        //do a check to see if the type we passed is a valid action
+
         if (!actions[type]) {
             throw new Error("The " + action + " could not be found");
         }
+
         _createRequest(actions[type], {
-            params: params
+            permalink: permalink
         }, callback);
+    },
+    getCollection = function(type, callback) {
+        if (!actions[type]) {
+            throw new Error("The " + action + " could not be found");
+        }
+        _createRequest(actions[type], {}, callback);
     };
-_.each(actions, function(action, key) {
-    var funcName = key.charAt(0).toUpperCase() + key.slice(1);
-    Crunchie.prototype["get" + funcName] = function() {
-        var args = Array.prototype.slice.call(arguments);
-        args.unshift(key);
-        parseParams.apply(this, args);
-    }
-});
+
+Crunchie.prototype.getPerson = function() {
+    var args = Array.prototype.slice.call(arguments);
+    args.unshift("person");
+    getSingleton.apply(this, args);
+};
+Crunchie.prototype.getPeople = function() {
+    var args = Array.prototype.slice.call(arguments);
+    args.unshift("people");
+    getCollection.apply(this, args);
+};
+Crunchie.prototype.getOrganization = function() {
+    var args = Array.prototype.slice.call(arguments);
+    args.unshift("organization");
+    getSingleton.apply(this, args);
+};
+Crunchie.prototype.getOrganizations = function() {
+    var args = Array.prototype.slice.call(arguments);
+    args.unshift("organizations");
+    getCollection.apply(this, args);
+};
+Crunchie.prototype.getProduct = function() {
+    var args = Array.prototype.slice.call(arguments);
+    args.unshift("product");
+    getSingleton.apply(this, args);
+};
+Crunchie.prototype.getProducts = function() {
+    var args = Array.prototype.slice.call(arguments);
+    args.unshift("products");
+    getCollection.apply(this, args);
+};
+Crunchie.prototype.getFunding = function() {
+    var args = Array.prototype.slice.call(arguments);
+    args.unshift("fundingRound");
+    getSingleton.apply(this, args);
+};
+Crunchie.prototype.getAquisition = function() {
+    var args = Array.prototype.slice.call(arguments);
+    args.unshift("acquisition");
+    getSingleton.apply(this, args);
+};
+Crunchie.prototype.getIPO = function() {
+    var args = Array.prototype.slice.call(arguments);
+    args.unshift("ipo");
+    getSingleton.apply(this, args);
+};
+Crunchie.prototype.getFundRaise = function() {
+    var args = Array.prototype.slice.call(arguments);
+    args.unshift("acquisition");
+    getSingleton.apply(this, args);
+};
+Crunchie.prototype.getLocations = function() {
+    var args = Array.prototype.slice.call(arguments);
+    args.unshift("locations");
+    getCollection.apply(this, args);
+};
+Crunchie.prototype.getCategories = function() {
+    var args = Array.prototype.slice.call(arguments);
+    args.unshift("categories");
+    getCollection.apply(this, args);
+};
+
 module.exports = Crunchie;
